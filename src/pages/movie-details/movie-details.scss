@@ -1,0 +1,69 @@
+page-movie-details {
+
+  .title {
+    font-size: 2.5em;
+    color: black;
+    text-align:center;
+  }
+
+  .rating {
+    font-size: 1.5em;
+    color: black;
+    text-align: center;
+  }
+
+  .overview {
+    font-size: 1.2em;
+    color: black;
+  }
+
+  .releaseDate {
+    font-size: 1.1em;
+    color: black;
+  }
+
+  ion-icon {
+    color: white;
+  }
+
+  ion-card {
+    background: transparent;
+  }
+
+  .posterImage {
+    height: 40%;
+    width: 50%;
+  }
+
+  // .custom-background {
+  //   background:
+  //     linear-gradient(to top left, #fff 50%, transparent 50%) no-repeat top,
+  //     /* bottom part */
+  //     linear-gradient(0deg, #fff, #fff) no-repeat bottom;
+  //   /* top portion */
+  //   // background-position: center;
+  //   //   background-repeat: no-repeat;
+  //   //   background-size: cover;
+  //   color: white;
+  //   padding-bottom: 0;
+  //   top: 0;
+  //   background-size: 300vh 41.3em, 300vh calc(101vh - 2.1em);
+  //
+  //   // background: url("../assets/imgs/bg.png");
+  //
+  // }
+
+  .custom-background {
+
+    background: url("../assets/imgs/details-overlay.png");
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+  }
+
+
+
+
+}

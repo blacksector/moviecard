@@ -1,22 +1,45 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { HomePage } from '../pages/home/home';
+import { Events } from 'ionic-angular';
+
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = HomePage;
+  rootPage:any = 'LoginPage';
+  @ViewChild(Nav) nav: Nav;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
-    platform.ready().then(() => {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
+    public events: Events) {
+
+    this.initializeApp();
+
+  }
+
+  initializeApp() {
+    this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
+      //statusBar.hide();
+      this.statusBar.overlaysWebView(false);
+      this.statusBar.hide();
+      // this.statusBar.backgroundColorByHexString("#c23616");
+      // statusBar.backgroundColorByHexString("#33000000");
+
+      this.splashScreen.hide();
+
+      this.events.subscribe('user:loggedIn', (loggedIn) => {
+        // user and time are the same arguments passed in `events.publish(user, time)`
+        if (loggedIn) {
+          this.rootPage = 'HomePage';
+        } else {
+          this.rootPage = 'LoginPage';
+        }
+      });
     });
   }
-}
 
+}

@@ -14,3 +14,56 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.fullscreen-image {
+  background:
+  /* top, transparent red, faked with gradient */
+
+  /* bottom, image */
+  url("../assets/imgs/bg.png");
+
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  // animation: animatedBackground 3s linear infinite;
+
+}
+
+// .fullscreen-image {
+//   background:
+//     linear-gradient(to top left, #fff 50%, transparent 50%) no-repeat center,
+//     /* bottom part */
+//     linear-gradient(0deg, #fff, #fff) no-repeat bottom,
+//     url("https://image.tmdb.org/t/p/w780/wrqUiMXttHE4UBFMhLHlN601MZh.jpg") no-repeat;
+//
+//   /* top portion */
+//   // background-position: center;
+//   //   background-repeat: no-repeat;
+//   //   background-size: cover;
+//   color: white;
+//   padding-bottom: 0;
+//   background-size: 100% 7em, 100% calc(58% - 7em);
+//
+//   // background: url("../assets/imgs/bg.png");
+//
+// }
+
+// ion-modal {
+//     .modal-wrapper {
+//         position: absolute;
+//         top: 0;
+//         left: 0;
+//         display: block;
+//         width: 100%;
+//         height: 100%;
+//     }
+// }
+
+
+ion-title {
+
+  text-align: center;
+
+}
