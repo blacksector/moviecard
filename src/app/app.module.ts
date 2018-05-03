@@ -20,11 +20,11 @@ import { IonicImageLoader } from 'ionic-image-loader';
 
 import { BrowserTab } from '@ionic-native/browser-tab';
 
-import { Globalization } from '@ionic-native/globalization';
-
 import { AdMobFree } from '@ionic-native/admob-free';
 
 import { IonicStorageModule } from '@ionic/storage';
+
+import { CodePush } from '@ionic-native/code-push';
 
 @NgModule({
   declarations: [
@@ -65,8 +65,8 @@ import { IonicStorageModule } from '@ionic/storage';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ApiProvider,
     BrowserTab,
-    Globalization,
-    AdMobFree
+    AdMobFree,
+    CodePush
   ]
 })
 export class AppModule {}

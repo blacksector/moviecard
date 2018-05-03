@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav } from 'ionic-angular';
+import { Platform, Nav, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -8,6 +8,8 @@ import { ImageLoaderConfig } from 'ionic-image-loader';
 import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
 
 import { Storage } from '@ionic/storage';
+
+import { CodePush, InstallMode, SyncStatus } from '@ionic-native/code-push';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,11 +20,14 @@ export class MyApp {
 
   constructor(public platform: Platform, public statusBar: StatusBar,
     public splashScreen: SplashScreen, public imageLoaderConfig: ImageLoaderConfig,
-    public admob: AdMobFree, private storage: Storage) {
+    public admob: AdMobFree, private storage: Storage,
+    private codePush: CodePush,  private alertCtrl: AlertController) {
 
     this.initializeApp();
 
     this.initializeImageLoader();
+
+    this.checkCodePush();
 
   }
 
@@ -58,6 +63,26 @@ export class MyApp {
     // set the maximum concurrent connections to 20
     this.imageLoaderConfig.setConcurrency(20);
 
+  }
+
+  checkCodePush() {
+
+     this.codePush.sync({
+      updateDialog: {
+       appendReleaseDescription: true,
+       descriptionPrefix: "\n\nChange log:\n"
+      },
+      installMode: InstallMode.IMMEDIATE
+   }).subscribe(
+     (data) => {
+      console.log('CODE PUSH SUCCESSFUL: ' + data);
+
+     },
+     (err) => {
+      console.log('CODE PUSH ERROR: ' + err);
+
+     }
+   );
   }
 
   showBanner() {
