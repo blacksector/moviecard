@@ -5,20 +5,15 @@ import { IonicPage, NavController, NavParams, ToastController, ModalController,
 // Animations:
 import { trigger, transition, style, animate } from '@angular/animations';
 
-import { Events } from 'ionic-angular';
-
 import { ApiProvider } from '../../providers/api/api';
 
-import { MovieDetailsPage } from '../movie-details/movie-details';
 
 import { ImageLoader } from 'ionic-image-loader';
 
-/**
- * Generated class for the HomePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Globalization } from '@ionic-native/globalization';
+
+
+
 
 @IonicPage()
 
@@ -56,18 +51,34 @@ export class HomePage {
 
   moviesList:any = [];
 
+  // API Config:
+  endpoint = 'movie/upcoming';
+  params: any = {};
+
+  shouldShowCancel: boolean = true;
+  searchInput:string = "";
+
+
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public events: Events, public api: ApiProvider, public imageLoader: ImageLoader,
+    public api: ApiProvider, public imageLoader: ImageLoader,
     public toastCtrl: ToastController, public modalCtrl: ModalController,
-    public actionSheetCtrl: ActionSheetController, public loadingCtrl: LoadingController) {
-
-    events.subscribe('navigation:categoryChange', (category) => {
-      // Category tells us which category to grab data for:
+    public actionSheetCtrl: ActionSheetController, public loadingCtrl: LoadingController,
+    public globalization: Globalization) {
 
 
+    this.globalization.getPreferredLanguage().then(res => {
+      // let lang = res.value.split('-')[0];
+      // let reg = res.value.split('-')[1];
+      // this.params = {region: reg, language: lang};
+      this.params = {region: 'US', language: 'en-US'};
+      this.getMovies();
+    }).catch(e => {
+      this.params = {region: 'US', language: 'en-US'};
+      this.getMovies();
     });
 
-    this.getMovies();
+
 
 
   }
@@ -87,47 +98,33 @@ export class HomePage {
     return loading;
   }
 
-  logout() {
-    this.events.publish('user:loggedIn', false);
-  }
+
 
   getMovies() {
     var api = this.api;
     var that = this;
     var backdropList = [];
-    var endpoint = "";
 
-    if (this.filter == "upcoming") {
-      endpoint = 'movie/upcoming';
-    } else if (this.filter == "theaters") {
-      endpoint = 'movie/now_playing';
-    } else {
-      endpoint = 'movie/upcoming';
-    }
     var loader = this.createLoading('Loading...');
     loader.present();
-    api.get(endpoint).subscribe(res => {
+    api.get(this.endpoint, this.params).subscribe(res => {
       //that.createToast("Success").present();
       this.moviesList = res.json()['results'];
       loader.dismiss();
 
-      console.log('preloading posters first...');
 
       for (var i = 0; i < this.moviesList.length; i++) {
         this.imageLoader.preload('https://image.tmdb.org/t/p/w500'+this.moviesList[i]['poster_path']);
         backdropList.push('https://image.tmdb.org/t/p/w780'+this.moviesList[i]['backdrop_path']);
       }
 
-      console.log('preloading backdrops second...');
-
       for (var i = 0; i < backdropList.length; i++) {
         this.imageLoader.preload(backdropList[i]);
       }
 
-      console.log('Done preloading queries');
-
     }, err => {
       that.createToast('Fail').present();
+      loader.dismiss();
     });
 
 
@@ -141,6 +138,8 @@ export class HomePage {
          text: 'Upcoming',
          handler: () => {
            this.filter = "upcoming";
+           this.endpoint = 'movie/upcoming';
+           this.title = "Upcoming Movies";
            this.getMovies();
          }
        },
@@ -148,15 +147,17 @@ export class HomePage {
          text: 'In Theaters',
          handler: () => {
            this.filter = "theaters";
+           this.endpoint = 'movie/now_playing';
+           this.title = "Now Playing";
            this.getMovies();
          }
        },
-       {
-         text: 'My Favorites',
-         handler: () => {
-           console.log('Favorites clicked');
-         }
-       },
+       // {
+       //   text: 'My Favorites',
+       //   handler: () => {
+       //     console.log('Favorites clicked');
+       //   }
+       // },
        {
          text: 'Cancel',
          role: 'cancel',
@@ -170,11 +171,15 @@ export class HomePage {
    actionSheet.present();
  }
 
+ searchMovie(ev: any) {
+   //this.searchInput = ev.target.value;
+   console.log(this.searchInput);
+   console.log(ev.target.value);
+ }
+
   movieDetails(movieData: any) {
-    let movieDetailsModal = this.modalCtrl.create('MovieDetailsPage', { 'movieData': movieData });
+    let movieDetailsModal = this.modalCtrl.create('MovieDetailsPage', { 'filter': this.filter, 'movieData': movieData });
     movieDetailsModal.present();
-
-
   }
 
   ngAfterViewInit() {
@@ -184,6 +189,8 @@ export class HomePage {
     //   // UPDATE ANYTHING ELSE YOU WANT
     //
     // }
+
+
   }
 
   ionViewDidLoad() {

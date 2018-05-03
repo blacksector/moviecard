@@ -1,0 +1,19 @@
+page-welcome {
+  ion-slide {
+
+      color: white;
+
+    }
+
+    .slide-title {
+      font-size: 32px;
+    }
+    .logo {
+      width: 128px;
+      height: 128px;
+    }
+
+    .swiper-pagination-bullet-active {
+      background-color: map-get($colors, "light");
+    }
+}

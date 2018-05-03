@@ -11,17 +11,21 @@
   <div id="animationDiv" [@myAnimation]>
 
     <ion-toolbar no-border-top transparent>
-      <button ion-button icon-only clear (click)="presentFilters()">
+      <button ion-button icon-only clear float-right (click)="presentFilters()">
         <ion-icon name="options"></ion-icon>
       </button>
-      <button ion-button icon-only clear float-right (click)="settings()">
+      <!-- <button ion-button icon-only clear float-right (click)="settings()">
         <ion-icon name="ios-cog"></ion-icon>
-      </button>
+      </button> -->
 
     </ion-toolbar>
 
     <ion-toolbar transparent>
-      <ion-searchbar (input)="getItems($event)"></ion-searchbar>
+      <ion-searchbar  [(ngModel)]="searchInput"
+        [showCancelButton]="shouldShowCancel"
+        (ionInput)="searchMovie($event)"
+        (ionCancel)="onCancel($event)"
+        (debouce)="2000"></ion-searchbar>
     </ion-toolbar>
 
     <div class="title"><b>{{title}}</b></div>
@@ -29,15 +33,18 @@
     <ion-grid>
       <ion-row>
         <ion-col *ngFor="let movie of moviesList" col-xlg-2 col-lg-3 col-md-4 col-sm-6 col-6 (click)="movieDetails(movie)">
-          <ion-card>
+          <ion-card *ngIf="movie.poster_path != null">
             <img-loader src="https://image.tmdb.org/t/p/w500{{movie.poster_path }}" useImg></img-loader>
+          </ion-card>
+          <ion-card *ngIf="movie.poster_path === null">
+            <img-loader src="assets/imgs/fallback.png" useImg></img-loader>
           </ion-card>
           <div class="cardText">{{movie.title}}</div>
         </ion-col>
       </ion-row>
     </ion-grid>
 
-    <button ion-button full color="purple" (click)="logout()">Logout</button>
+    <!-- <button ion-button full color="purple" (click)="admob.banner.show()">Show Ads</button> -->
 
   </div>
 

@@ -1,21 +1,16 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { HomePage } from './home';
+import { WelcomePage } from './welcome';
 
 import { IonicImageLoader } from 'ionic-image-loader';
 
-import { AdMobFree } from '@ionic-native/admob-free';
-
 @NgModule({
   declarations: [
-    HomePage,
+    WelcomePage
   ],
   imports: [
-    IonicPageModule.forChild(HomePage),
+    IonicPageModule.forChild(WelcomePage),
     IonicImageLoader
   ],
-  providers: [
-    AdMobFree
-  ]
 })
-export class HomePageModule {}
+export class WelcomePageModule {}

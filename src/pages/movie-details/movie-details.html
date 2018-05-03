@@ -16,29 +16,30 @@
 
 
     <div id="content" padding [@myAnimation]>
-      <ion-card class="posterImage" text-center>
+      <ion-card class="posterImage" text-center *ngIf="movie.poster_path != null">
         <img-loader src="https://image.tmdb.org/t/p/w500{{movie.poster_path }}" useImg></img-loader>
+      </ion-card>
+      <ion-card class="posterImage" text-center *ngIf="movie.poster_path === null">
+        <img-loader src="assets/imgs/fallback.png" useImg></img-loader>
       </ion-card>
 
       <p class="title"><b>{{movie.title}}</b></p>
-      <p class="releaseDate"><b>Release Date:</b> {{movie.release_date}}</p>
-      <p class="overview"><b>Overview:</b><br />{{movie.overview}}</p>
 
-      <p class="releaseDate"><b>Trailer:</b></p>
+      <!-- <p text-center>
+        <span *ngFor="let star of rating">
+          <ion-icon *ngIf="star" name="star" color="primary"></ion-icon>
+          <ion-icon *ngIf="!star" name="star" color="dark"></ion-icon>
+        </span>
+      </p> -->
+
+
 
       <ion-grid>
         <ion-row>
-          <ion-col col-12 *ngFor="let trailer of trailers" (click)="openVideo(trailer.key)">
-            <img-loader src="https://img.youtube.com/vi/{{trailer.key}}/0.jpg" useImg></img-loader>
+          <ion-col col-6>
+            <p class="releaseDate"><b>Release Date:</b> <br /> {{movie.release_date}}</p>
           </ion-col>
-        </ion-row>
-      </ion-grid>
-
-
-
-      <ion-grid>
-        <ion-row>
-          <ion-col col-12>
+          <ion-col col-6 *ngIf="filter === 'theaters'">
             <div float-right>
               <circle-progress [percent]="movie.vote_average*10"></circle-progress>
             </div>
@@ -46,7 +47,22 @@
         </ion-row>
       </ion-grid>
 
+      <p class="overview" text-justify><b>Overview:</b><br />{{movie.overview}}</p>
+
+      <p class="releaseDate" *ngIf="trailers.length != 0"><b>Trailer(s):</b></p>
 
     </div>
+
+    <ion-scroll scrollX="true" style="width: 400px; height: 150px;">
+      <div class="inner" [ngStyle]="{'width': trailers.length*256 + 'px'}">
+        <div class="list list-inset" *ngFor="let trailer of trailers" (click)="openVideo(trailer.key)" no-shadow no-border>
+          <img src="https://img.youtube.com/vi/{{trailer.key}}/maxresdefault.jpg" />
+        </div>
+      </div>
+    </ion-scroll>
+
+    <br />
+
+
   </div>
 </ion-content>

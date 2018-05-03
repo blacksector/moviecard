@@ -18,7 +18,13 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 // Used for background image loading
 import { IonicImageLoader } from 'ionic-image-loader';
 
-import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
+import { BrowserTab } from '@ionic-native/browser-tab';
+
+import { Globalization } from '@ionic-native/globalization';
+
+import { AdMobFree } from '@ionic-native/admob-free';
+
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -46,7 +52,8 @@ import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
     IonicModule.forRoot(MyApp),
     BrowserAnimationsModule,
     HttpModule,
-    IonicImageLoader.forRoot()
+    IonicImageLoader.forRoot(),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -57,7 +64,9 @@ import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ApiProvider,
-    YoutubeVideoPlayer
+    BrowserTab,
+    Globalization,
+    AdMobFree
   ]
 })
 export class AppModule {}

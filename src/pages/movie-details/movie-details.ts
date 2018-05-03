@@ -8,7 +8,7 @@ import { ImageLoader } from 'ionic-image-loader';
 
 import { ApiProvider } from '../../providers/api/api';
 
-import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
+import { BrowserTab } from '@ionic-native/browser-tab';
 
 /**
  * Generated class for the MovieDetailsPage page.
@@ -46,13 +46,17 @@ export class MovieDetailsPage {
 
   bgUrl: string = "../assets/imgs/bg.png";
 
+  filter: string = "upcoming";
+
   trailers: any = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public imageLoader: ImageLoader, public api: ApiProvider,
     public loadingCtrl: LoadingController, public toastCtrl: ToastController,
-    public youtube: YoutubeVideoPlayer) {
+    public browserTab: BrowserTab) {
     this.movie = navParams.get('movieData');
+    console.log(this.movie.id);
+    this.filter = navParams.get('filter');
     this.bgUrl = 'https://image.tmdb.org/t/p/w780'+this.movie.backdrop_path;
 
 
@@ -74,7 +78,16 @@ export class MovieDetailsPage {
   }
 
   openVideo(key: string) {
-    this.youtube.openVideo(key);
+    //this.openVideo(key);
+    this.createToast('Loading video...').present();
+    this.browserTab.isAvailable()
+    .then(isAvailable => {
+      if (isAvailable) {
+        this.browserTab.openUrl('https://www.youtube.com/watch?v='+key);
+      } else {
+        // open URL with InAppBrowser instead or SafariViewController
+      }
+    });
   }
 
   getTrailers() {
@@ -84,28 +97,16 @@ export class MovieDetailsPage {
     loader.present();
     api.get('movie/'+this.movie.id+'/videos').subscribe(res => {
       this.trailers = res.json()['results'];
-      loader.dismiss();
-      // this.moviesList = res.json()['results'];
-      // console.log(this.moviesList);
-      // loader.dismiss();
-      //
-      // console.log('preloading posters first...');
-      //
-      // for (var i = 0; i < this.moviesList.length; i++) {
-      //   this.imageLoader.preload('https://image.tmdb.org/t/p/w500'+this.moviesList[i]['poster_path']);
-      //   backdropList.push('https://image.tmdb.org/t/p/w780'+this.moviesList[i]['backdrop_path']);
-      // }
-      //
-      // console.log('preloading backdrops second...');
-      //
-      // for (var i = 0; i < backdropList.length; i++) {
-      //   this.imageLoader.preload(backdropList[i]);
-      // }
-      //
-      // console.log('Done preloading queries');
+      for (var i = 0; i < this.trailers.length; i++) {
 
+        this.imageLoader.preload("https://img.youtube.com/vi/"+this.trailers[i].key+"/maxresdefault.jpg");
+
+      }
+
+      loader.dismiss();
     }, err => {
       that.createToast('Fail').present();
+      loader.dismiss();
     });
   }
 
@@ -115,7 +116,7 @@ export class MovieDetailsPage {
 
   ionViewDidLoad() {
     this.getTrailers();
-    console.log('ionViewDidLoad MovieDetailsPage');
+
   }
 
 }

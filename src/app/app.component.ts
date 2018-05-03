@@ -3,19 +3,26 @@ import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { Events } from 'ionic-angular';
+import { ImageLoaderConfig } from 'ionic-image-loader';
+
+import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
+
+import { Storage } from '@ionic/storage';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = 'LoginPage';
+  rootPage:any = '';
   @ViewChild(Nav) nav: Nav;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-    public events: Events) {
+  constructor(public platform: Platform, public statusBar: StatusBar,
+    public splashScreen: SplashScreen, public imageLoaderConfig: ImageLoaderConfig,
+    public admob: AdMobFree, private storage: Storage) {
 
     this.initializeApp();
+
+    this.initializeImageLoader();
 
   }
 
@@ -23,23 +30,47 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      //statusBar.hide();
       this.statusBar.overlaysWebView(false);
       this.statusBar.hide();
-      // this.statusBar.backgroundColorByHexString("#c23616");
-      // statusBar.backgroundColorByHexString("#33000000");
-
       this.splashScreen.hide();
+      // Start the ads engine:
 
-      this.events.subscribe('user:loggedIn', (loggedIn) => {
-        // user and time are the same arguments passed in `events.publish(user, time)`
-        if (loggedIn) {
+
+
+
+      // Or to get a key/value pair
+      this.storage.get('firstUse').then((val) => {
+        if (val == false) {
           this.rootPage = 'HomePage';
+          this.showBanner();
         } else {
-          this.rootPage = 'LoginPage';
+          this.storage.set('firstUse', false);
+          this.rootPage = 'WelcomePage';
         }
       });
+
     });
+  }
+
+  initializeImageLoader() {
+
+    // set the maximum concurrent connections to 20
+    this.imageLoaderConfig.setConcurrency(20);
+
+  }
+
+  showBanner() {
+
+    let bannerConfig: AdMobFreeBannerConfig = {
+      autoShow: true,
+      id: 'ca-app-pub-7574351163677757/5246739516'
+    };
+
+    this.admob.banner.config(bannerConfig);
+    this.admob.banner.prepare().then(() => {
+      this.admob.banner.show();
+    }).catch(e => console.log(e));
+
   }
 
 }

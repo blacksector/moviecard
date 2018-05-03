@@ -1,0 +1,32 @@
+<ion-header no-shadow no-border>
+  <ion-navbar transparent>
+    <ion-buttons end>
+      <button ion-button icon-right (click)="skipSlides()" color="light">Skip <ion-icon name="ios-arrow-forward"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="fullscreen-image">
+
+  <ion-slides pager>
+
+
+    <ion-slide>
+
+      <img class="logo" src="assets/imgs/logo.png" width="128px" height="128px" />
+      <h2 class="slide-title">Welcome to MovieCard!</h2>
+      <p>Quickly find the latest releases and upcoming movies.</p>
+    </ion-slide>
+    <ion-slide>
+      <h2 class="slide-title">Ready? <br /> Let's get started!</h2>
+
+      <div padding>
+        <button ion-button block outline color="light" (click)="skipSlides()">
+          Get Started
+        </button>
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>

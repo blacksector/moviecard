@@ -20,6 +20,7 @@ page-movie-details {
   .releaseDate {
     font-size: 1.1em;
     color: black;
+
   }
 
   ion-icon {
@@ -33,6 +34,23 @@ page-movie-details {
   .posterImage {
     height: 40%;
     width: 50%;
+  }
+
+  .inner {
+    width: 9000px;
+    height: 40%;
+    div {
+      display: table-cell;
+      border: 0px !important;
+      border-bottom-color: transparent !important;
+      background-image: none !important;
+      border-bottom: none !important;
+      padding-right: 0.5em;
+      img {
+        height: 128px;
+        width: 256px;
+      }
+    }
   }
 
   // .custom-background {
@@ -57,7 +75,7 @@ page-movie-details {
 
     background: url("../assets/imgs/details-overlay.png");
 
-    background-position: center;
+    background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
 
