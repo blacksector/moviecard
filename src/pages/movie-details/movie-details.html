@@ -39,10 +39,8 @@
           <ion-col col-6>
             <p class="releaseDate"><b>Release Date:</b> <br /> {{movie.release_date}}</p>
           </ion-col>
-          <ion-col col-6 *ngIf="filter === 'theaters'">
-            <div float-right>
-              <circle-progress [percent]="movie.vote_average*10"></circle-progress>
-            </div>
+          <ion-col float-right col-6 *ngIf="movie.vote_average != 0">
+            <circle-progress [percent]="movie.vote_average*10"></circle-progress>
           </ion-col>
         </ion-row>
       </ion-grid>

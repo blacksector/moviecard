@@ -35,7 +35,7 @@ import { CodePush } from '@ionic-native/code-push';
     // Specify ng-circle-progress as an import
     NgCircleProgressModule.forRoot({
       "backgroundPadding": 7,
-      "radius": 60,
+      "radius": 40,
       "space": -2,
       "outerStrokeWidth": 2,
       "outerStrokeColor": "#2E9AEE",

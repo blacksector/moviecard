@@ -58,6 +58,7 @@ export class MovieDetailsPage {
     this.filter = navParams.get('filter');
     this.bgUrl = 'https://image.tmdb.org/t/p/w780'+this.movie.backdrop_path;
 
+    console.log(this.movie);
 
   }
 
