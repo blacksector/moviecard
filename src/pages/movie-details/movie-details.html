@@ -53,10 +53,10 @@
 
     </div>
 
-    <ion-scroll scrollX="true" style="width: 400px; height: 150px;">
-      <div class="inner" [ngStyle]="{'width': trailers.length*256 + 'px'}">
+    <ion-scroll scrollX="true" style="width: 400px; height: 180px;">
+      <div class="inner" [ngStyle]="{'width': trailers.length*280 + 'px'}">
         <div class="list list-inset" *ngFor="let trailer of trailers" (click)="openVideo(trailer.key)" no-shadow no-border>
-          <img src="https://img.youtube.com/vi/{{trailer.key}}/maxresdefault.jpg" />
+          <img src="https://img.youtube.com/vi/{{trailer.key}}/default.jpg" />
         </div>
       </div>
     </ion-scroll>

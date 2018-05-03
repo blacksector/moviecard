@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="co.quazi.android.moviecard" version="0.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="co.quazi.android.moviecard" version="0.0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>MovieCard</name>
-    <description>An awesome Ionic/Cordova app.</description>
+    <description>Quickly find the latest releases and upcoming movies.</description>
     <author email="omar@quazi.co" href="https://quazi.co/">Omar Quazi</author>
     <content src="index.html" />
     <access origin="*" />

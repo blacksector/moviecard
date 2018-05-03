@@ -98,7 +98,7 @@ export class MovieDetailsPage {
       this.trailers = res.json()['results'];
       for (var i = 0; i < this.trailers.length; i++) {
 
-        this.imageLoader.preload("https://img.youtube.com/vi/"+this.trailers[i].key+"/maxresdefault.jpg");
+        this.imageLoader.preload("https://img.youtube.com/vi/"+this.trailers[i].key+"/default.jpg");
 
       }
 
