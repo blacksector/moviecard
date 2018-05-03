@@ -33,8 +33,6 @@ export class MyApp {
       this.statusBar.overlaysWebView(false);
       this.statusBar.hide();
       this.splashScreen.hide();
-      // Start the ads engine:
-
 
 
 
@@ -42,9 +40,12 @@ export class MyApp {
       this.storage.get('firstUse').then((val) => {
         if (val == false) {
           this.rootPage = 'HomePage';
+          // Start the ads engine:
           this.showBanner();
         } else {
           this.storage.set('firstUse', false);
+          this.storage.set('countryCode', 'US');
+          this.storage.set('languageCode', 'en');
           this.rootPage = 'WelcomePage';
         }
       });

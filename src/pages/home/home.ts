@@ -10,10 +10,8 @@ import { ApiProvider } from '../../providers/api/api';
 
 import { ImageLoader } from 'ionic-image-loader';
 
-import { Globalization } from '@ionic-native/globalization';
 
-
-
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 
@@ -53,32 +51,25 @@ export class HomePage {
 
   // API Config:
   endpoint = 'movie/upcoming';
-  params: any = {};
+  params: any = {region: 'US', language: 'en'};
 
   shouldShowCancel: boolean = true;
   searchInput:string = "";
-
-
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public api: ApiProvider, public imageLoader: ImageLoader,
     public toastCtrl: ToastController, public modalCtrl: ModalController,
     public actionSheetCtrl: ActionSheetController, public loadingCtrl: LoadingController,
-    public globalization: Globalization) {
+    private storage: Storage) {
 
-
-    this.globalization.getPreferredLanguage().then(res => {
-      // let lang = res.value.split('-')[0];
-      // let reg = res.value.split('-')[1];
-      // this.params = {region: reg, language: lang};
-      this.params = {region: 'US', language: 'en-US'};
-      this.getMovies();
-    }).catch(e => {
-      this.params = {region: 'US', language: 'en-US'};
-      this.getMovies();
+    this.storage.get('countryCode').then((val) => {
+      this.params['region'] = val;
     });
 
-
+    this.storage.get('languageCode').then((val) => {
+      this.params['language'] = val;
+      this.getMovies();
+    });
 
 
   }
@@ -107,7 +98,8 @@ export class HomePage {
 
     var loader = this.createLoading('Loading...');
     loader.present();
-    api.get(this.endpoint, this.params).subscribe(res => {
+
+    api.get(this.endpoint, {region: 'US', language: 'en'}).subscribe(res => {
       //that.createToast("Success").present();
       this.moviesList = res.json()['results'];
       loader.dismiss();
@@ -162,7 +154,7 @@ export class HomePage {
          text: 'Cancel',
          role: 'cancel',
          handler: () => {
-           console.log('Cancel clicked');
+
          }
        }
      ]
@@ -171,10 +163,39 @@ export class HomePage {
    actionSheet.present();
  }
 
+ cancelSearch(ev: any) {
+   this.filter = "upcoming";
+   this.endpoint = 'movie/upcoming';
+   this.title = "Upcoming Movies";
+   this.getMovies();
+ }
+
  searchMovie(ev: any) {
-   //this.searchInput = ev.target.value;
-   console.log(this.searchInput);
-   console.log(ev.target.value);
+   var api = this.api;
+
+
+   if (ev.target.value != undefined) {
+     if (ev.target.value.length > 0) {
+       this.title = "Search Results";
+       api.get('search/movie', {region: this.params.region, language: this.params.language, query: ev.target.value}).subscribe(res => {
+         this.moviesList = res.json()['results'];
+
+       }, err => {
+         console.log(err);
+       });
+    } else {
+      this.filter = "upcoming";
+      this.endpoint = 'movie/upcoming';
+      this.title = "Upcoming Movies";
+      this.getMovies();
+    }
+  } else {
+    this.filter = "upcoming";
+    this.endpoint = 'movie/upcoming';
+    this.title = "Upcoming Movies";
+    this.getMovies();
+  }
+
  }
 
   movieDetails(movieData: any) {
@@ -182,19 +203,9 @@ export class HomePage {
     movieDetailsModal.present();
   }
 
-  ngAfterViewInit() {
-    // let myTags = document.getElementsByClassName('dynamic-bg-color');
-    // for(var i=0; i < myTags.length; i++) {
-    //   myTags [i].style.backgroundColor = this.backgroundColor;
-    //   // UPDATE ANYTHING ELSE YOU WANT
-    //
-    // }
-
-
-  }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HomePage');
+
   }
 
 }

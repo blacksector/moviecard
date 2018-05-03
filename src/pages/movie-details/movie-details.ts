@@ -55,7 +55,6 @@ export class MovieDetailsPage {
     public loadingCtrl: LoadingController, public toastCtrl: ToastController,
     public browserTab: BrowserTab) {
     this.movie = navParams.get('movieData');
-    console.log(this.movie.id);
     this.filter = navParams.get('filter');
     this.bgUrl = 'https://image.tmdb.org/t/p/w780'+this.movie.backdrop_path;
 
@@ -85,7 +84,7 @@ export class MovieDetailsPage {
       if (isAvailable) {
         this.browserTab.openUrl('https://www.youtube.com/watch?v='+key);
       } else {
-        // open URL with InAppBrowser instead or SafariViewController
+        // open URL with InAppBrowser instead or SafariViewController?
       }
     });
   }
