@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 export class ApiProvider {
   url: string = 'https://api.themoviedb.org/3';
 
-  apiKey: string = 'bf2e1bfdc55043c9778ccfeaa5462c54';
+  apiKey: string = '';
 
   constructor(public http: Http) {
   }
