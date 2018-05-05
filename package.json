@@ -22,6 +22,7 @@
     "@angular/platform-browser": "5.2.10",
     "@angular/platform-browser-dynamic": "5.2.10",
     "@ionic-native/admob-free": "^4.7.0",
+    "@ionic-native/app-center-analytics": "^4.7.0",
     "@ionic-native/browser-tab": "^4.7.0",
     "@ionic-native/code-push": "^4.7.0",
     "@ionic-native/core": "4.7.0",
@@ -37,6 +38,8 @@
     "cordova-admob-sdk": "^0.16.0",
     "cordova-android": "7.0.0",
     "cordova-plugin-admob-free": "^0.16.0",
+    "cordova-plugin-appcenter-analytics": "^0.1.4",
+    "cordova-plugin-appcenter-shared": "^0.1.3",
     "cordova-plugin-browsertab": "^0.2.0",
     "cordova-plugin-code-push": "^1.11.10",
     "cordova-plugin-compat": "^1.2.0",
@@ -83,7 +86,8 @@
       "cordova-sqlite-storage": {},
       "cordova-plugin-code-push": {},
       "cordova-plugin-zip": {},
-      "cordova-plugin-file-transfer": {}
+      "cordova-plugin-file-transfer": {},
+      "cordova-plugin-appcenter-analytics": {}
     },
     "platforms": [
       "android"

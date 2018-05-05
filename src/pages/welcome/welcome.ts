@@ -29,7 +29,7 @@ export class WelcomePage {
       //this.getMovies();
 
       // Call this with "default" region settings.
-      this.getConfiguration();
+      // this.getConfiguration();
 
   }
 
@@ -64,7 +64,6 @@ export class WelcomePage {
     api.get('configuration/countries').subscribe(res => {
       //that.createToast("Success").present();
       this.countries = res.json();
-
     }, err => {
       console.log(err);
     });

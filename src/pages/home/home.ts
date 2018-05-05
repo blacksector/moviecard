@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, ModalController,
-  ActionSheetController, LoadingController } from 'ionic-angular';
+  ActionSheetController, LoadingController, Events, AlertController  } from 'ionic-angular';
 
 // Animations:
 import { trigger, transition, style, animate } from '@angular/animations';
 
 import { ApiProvider } from '../../providers/api/api';
 
-
 import { ImageLoader } from 'ionic-image-loader';
-
 
 import { Storage } from '@ionic/storage';
 
@@ -60,7 +58,7 @@ export class HomePage {
     public api: ApiProvider, public imageLoader: ImageLoader,
     public toastCtrl: ToastController, public modalCtrl: ModalController,
     public actionSheetCtrl: ActionSheetController, public loadingCtrl: LoadingController,
-    private storage: Storage) {
+    private storage: Storage, public events: Events, public alertCtrl: AlertController) {
 
     this.storage.get('countryCode').then((val) => {
       this.params['region'] = val;
@@ -144,6 +142,17 @@ export class HomePage {
            this.getMovies();
          }
        },
+       {
+         text: 'About',
+         handler: () => {
+           let alert = this.alertCtrl.create({
+             title: 'About',
+             subTitle: 'This app is part of https://project52.tech/. <br /> <br /> The backend API is powered by TheMovieDB.',
+             buttons: ['Ok']
+           });
+           alert.present();
+         }
+       },
        // {
        //   text: 'My Favorites',
        //   handler: () => {
@@ -164,6 +173,8 @@ export class HomePage {
  }
 
  cancelSearch(ev: any) {
+   console.log(this.searchInput);
+   this.events.publish('search:movieSearch', this.searchInput);
    this.filter = "upcoming";
    this.endpoint = 'movie/upcoming';
    this.title = "Upcoming Movies";
@@ -177,6 +188,7 @@ export class HomePage {
    if (ev.target.value != undefined) {
      if (ev.target.value.length > 0) {
        this.title = "Search Results";
+       this.events.publish('search:movieSearch', ev.target.value);
        api.get('search/movie', {region: this.params.region, language: this.params.language, query: ev.target.value}).subscribe(res => {
          this.moviesList = res.json()['results'];
 
@@ -199,13 +211,9 @@ export class HomePage {
  }
 
   movieDetails(movieData: any) {
+    this.events.publish('analytics:movieClicked', movieData.title);
     let movieDetailsModal = this.modalCtrl.create('MovieDetailsPage', { 'filter': this.filter, 'movieData': movieData });
     movieDetailsModal.present();
-  }
-
-
-  ionViewDidLoad() {
-
   }
 
 }

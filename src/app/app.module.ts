@@ -26,6 +26,8 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { CodePush } from '@ionic-native/code-push';
 
+import { AppCenterAnalytics } from '@ionic-native/app-center-analytics';
+
 @NgModule({
   declarations: [
     MyApp
@@ -66,7 +68,8 @@ import { CodePush } from '@ionic-native/code-push';
     ApiProvider,
     BrowserTab,
     AdMobFree,
-    CodePush
+    CodePush,
+    AppCenterAnalytics
   ]
 })
 export class AppModule {}

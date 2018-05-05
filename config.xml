@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="co.quazi.android.moviecard" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="co.quazi.android.moviecard" version="0.1.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>MovieCard</name>
     <description>Quickly find the latest releases and upcoming movies.</description>
     <author email="omar@quazi.co" href="https://quazi.co/">Omar Quazi</author>
@@ -42,6 +42,7 @@
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
         <preference name="CodePushDeploymentKey" value="X0NfzsXT3ZwLbcW9NQFyTE01R4md9800cb5d-d007-4730-9593-a42a79562a26" />
+        <preference name="APP_SECRET" value="697ca0a3-a4da-4365-8e6c-33c0d16abe1c" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
@@ -79,6 +80,7 @@
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
         <splash height="2732" src="resources/ios/splash/Default@2x~universal~anyany.png" width="2732" />
         <preference name="CodePushDeploymentKey" value="_86Ao9fPzfkj9DvrhrvGIATZnFKF9800cb5d-d007-4730-9593-a42a79562a26" />
+        <preference name="APP_SECRET" value="6a8b8067-38ae-4b18-b926-a46e47213cc5" />
     </platform>
     <plugin name="cordova-plugin-whitelist" spec="1.3.3" />
     <plugin name="cordova-plugin-device" spec="2.0.2" />
@@ -97,4 +99,5 @@
     <plugin name="cordova-plugin-zip" spec="^3.1.0" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-appcenter-analytics" spec="^0.1.4" />
 </widget>

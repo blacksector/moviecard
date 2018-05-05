@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController,
+  LoadingController, Events } from 'ionic-angular';
 
 // Animations:
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -53,7 +54,7 @@ export class MovieDetailsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public imageLoader: ImageLoader, public api: ApiProvider,
     public loadingCtrl: LoadingController, public toastCtrl: ToastController,
-    public browserTab: BrowserTab) {
+    public browserTab: BrowserTab, public events: Events) {
     this.movie = navParams.get('movieData');
     this.filter = navParams.get('filter');
     this.bgUrl = 'https://image.tmdb.org/t/p/w780'+this.movie.backdrop_path;
@@ -77,15 +78,18 @@ export class MovieDetailsPage {
     return loading;
   }
 
-  openVideo(key: string) {
+  openVideo(trailer: any) {
     //this.openVideo(key);
-    this.createToast('Loading video...').present();
+    this.events.publish('analytics:trailersClicked', this.movie.title, trailer.name);
+    let key = trailer;
+    this.createToast('Loading trailers...').present();
     this.browserTab.isAvailable()
     .then(isAvailable => {
       if (isAvailable) {
         this.browserTab.openUrl('https://www.youtube.com/watch?v='+key);
       } else {
         // open URL with InAppBrowser instead or SafariViewController?
+        
       }
     });
   }
